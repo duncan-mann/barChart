@@ -5,7 +5,7 @@ let options1 = {             // Test options
   backgroundColor: 'blue',
   barColor: 'red',
   labelColor: undefined,
-  barSpacing: undefined,
+  barSpacing: 10,
   barChartAxes: undefined,
   titleSize: undefined,
   titleColor: undefined
@@ -33,9 +33,11 @@ $(document).ready( function() {
         bar.appendTo($chartArea).attr("id", "bar" + i.toString()); // Give each bar a css id named bar + index , i.e #bar0, #bar1, #bar2 etc.
         $('#bar' + i.toString()).css({
           "allign-self": "flex-end",      // Alligns each bar to the bottom of the container
-          "height" : data[i]*20,          // 
-          "width" : options.width / data.length,
-          "background-color": options.barColor,
+          "height" : data[i]*20,          // Scale up by a random value of 20 --> Make function later to scale the height of each bar to the height of the chart container
+          "width" : (options.width - (data.length - 1)*options.barSpacing) / data.length,  // Splits the width of each bar evenly amongst container width, considering the barSpacing value specified in options
+          "margin-right" : options.barSpacing,   // Add barSpacing option to margins of each bar div
+          "margin-left" : options.barSpacing,
+          "background-color": options.barColor,  // Add barColor from options
         })     
       }
         };
