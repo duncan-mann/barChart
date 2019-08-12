@@ -25,12 +25,12 @@ $(document).ready( function() {
 
         $labelArea.prependTo(element).attr("id", "barChart");   //Adds this div to the top of the body tag
   $('#barChart').css({
-    "display": "flex",                      // Use flexbox later to organize bars within chart
-    // "flex-direction": "row",
-    // "align-items" : "flex-end",                      
-    "width" : 1.2*options.width,               // Adds CSS class width from options object
-    "height": 1.1*options.height,             // Adds CSS class height from options object
-    "background-color": options.backgroundColor,  // Adds CSS class background-color from options object
+    "display": "grid",                                // Use CSS grid to organize bar chart, labels, and title 
+    "grid-template-rows" : options.height + " auto",
+    "grid-template-columns": options.width + " auto",                  
+    "width" : 1.2*options.width,                      // Adds CSS class width from options object
+    "height": 1.2*options.height,                     // Adds CSS class height from options object
+    "background-color": options.backgroundColor,      // Adds CSS class background-color from options object
       });
 
 
@@ -62,13 +62,39 @@ $(document).ready( function() {
           })  
         }  
 
-        //  function makeBarLabels() {
-         
+      }
+      function makeBarLabels() {
+        let xAxis = $('<div>'); 
 
-        //    }
-         } 
+        xAxis.appendTo($labelArea).attr("id", "x-axis");  //Create div for individual bar labels to be contained
+        $('#x-axis').css( {
+          'display' : "flex",
+          'height'  : 0.2*options.height,
+          'width' : options.width,
+          'background-color' : options.backgroundColor
+        });
+
+          for (let i = 0; i < data.length; i++) {
+            let label = $('<d>');
+            $(label).css({
+              "width" : (options.width - (data.length - 1)*options.barSpacing) / data.length,
+              "margin-right" : options.barSpacing,   // Add barSpacing option to margins of each bar div
+              "margin-left" : options.barSpacing,
+              "text-align" : "center"
+            })
+            label.appendTo(xAxis);
+            let labelText = $('<p>');
+            $(labelText).css({
+              "display" : "inline-block"
+            })
+            $(labelText).text(options.labelNames[i]);
+            labelText.appendTo(label);
+            
+          }
+        }
 
       makeBars();
+      makeBarLabels();
         };
         barChart(data1, options1, element1);
       })
