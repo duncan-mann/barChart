@@ -3,17 +3,19 @@ let element1 = $('body');        // Test element (body tag);
 let options1 = {                // Test options
   width: 500,  // Automatically converts to pixels - leave this so we can use the value in equations later
   height: 300,
-  axisMax: 90, 
-  axisMin: 20, 
+
+  axisMax: 100, 
+  axisMin: 0, 
+
   barSpacing: 15,
-  // numValTop: true,
-  // numValCentre: false,
-  // numValBottom: false,
+  barColor: ['orange', 'violet', 'blue', 'red', 'green'],
+
   labelSize: 40,
   labelNames : ["Label1", "Label2", "Label3", "Label4", "Label5"],
+
   backgroundColor: '#0c7ba3',
-  barColor: '#E0FAF9',
   labelColor: 'white',
+
   title: undefined,
   titleSize: undefined,
   titleColor: undefined
@@ -62,7 +64,7 @@ $(document).ready( function() {
           "width" : (options.width - (data.length - 1)*options.barSpacing) / data.length,  // Splits the width of each bar evenly amongst container width, considering the barSpacing value specified in options
           "margin-right" : options.barSpacing,   // Add barSpacing option to margins of each bar div
           "margin-left" : options.barSpacing,
-          "background-color": options.barColor,  // Add barColor from options
+          "background-color": options.barColor[i],  // Add barColor from options
           "border-radius": "10px 10px 0px 0px"
           })  
         }
