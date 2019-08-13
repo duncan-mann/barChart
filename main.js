@@ -2,14 +2,17 @@ let data1 = [35, 24, 68, 87, 47]; // Test data
 let element1 = $('body');        // Test element (body tag);
 let options1 = {                // Test options
   width: 500,  // Automatically converts to pixels - leave this so we can use the value in equations later
-  height: 500,
+  height: 300,
   axisMax: 100, 
   axisMin: 0, 
-  barSpacing: 20,
+  barSpacing: 15,
+  // numValTop: true,
+  // numValCentre: false,
+  // numValBottom: false,
   labelSize: 40,
   labelNames : ["Label1", "Label2", "Label3", "Label4", "Label5"],
-  backgroundColor: 'powderblue',
-  barColor: 'maroon',
+  backgroundColor: '#0c7ba3',
+  barColor: '#E0FAF9',
   labelColor: 'white',
   title: undefined,
   titleSize: undefined,
@@ -31,7 +34,8 @@ $(document).ready( function() {
     "width" : 1.2*options.width,                      // Adds CSS class width from options object
     "height": 1.2*options.height,                     // Adds CSS class height from options object
     "background-color": options.backgroundColor,      // Adds CSS class background-color from options object
-      });
+    "background-image": 'url(asfalt-light.png)'   
+  });
 
 
   $chartArea.prependTo($labelArea).attr("id", "innerBarChart");   //Adds this div to the top of the body tag
@@ -42,6 +46,7 @@ $(document).ready( function() {
     "width" : options.width,               // Adds CSS class width from options object
     "height": options.height,             // Adds CSS class height from options object
     "background-color": options.backgroundColor,  // Adds CSS class background-color from options object
+    "background-image": 'url(asfalt-light.png)'  
       });
 
       
@@ -60,9 +65,31 @@ $(document).ready( function() {
           "background-color": options.barColor,  // Add barColor from options
           "border-radius": "10px 10px 0px 0px"
           })  
-        }  
+        }
+      }  
 
-      }
+        function displayBarValues() {
+          for (let i=0; i < data.length; i++) {
+            let barValueDiv = $('<div>');
+            barValueDiv.appendTo('#bar' + i.toString()).attr("id", "barValue" + i.toString()); //Creates a div within each bar, and gives it a CSS id of barValue0. barValue1, etc.
+            
+          
+            
+            $(barValueDiv).css({
+              "text-align" : "center"
+            })
+            let barValue = $('<p>');
+            $(barValue).text(data[i]);
+            $(barValue).css({
+              "display" : "inline-block"
+            })
+            barValue.appendTo(barValueDiv);
+
+            }
+          }
+        
+
+      
       function makeBarLabels() {
         let xAxis = $('<div>'); 
 
@@ -71,7 +98,8 @@ $(document).ready( function() {
           'display' : "flex",
           'height'  : 0.2*options.height,
           'width' : options.width,
-          'background-color' : options.backgroundColor
+          'background-color' : options.backgroundColor,
+          "background-image": 'url(asfalt-light.png)'
         });
 
           for (let i = 0; i < data.length; i++) {
@@ -94,6 +122,7 @@ $(document).ready( function() {
         }
 
       makeBars();
+      displayBarValues();
       makeBarLabels();
         };
         barChart(data1, options1, element1);
