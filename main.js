@@ -3,8 +3,8 @@ let element1 = $('body');        // Test element (body tag);
 let options1 = {                // Test options
   width: 500,  // Automatically converts to pixels - leave this so we can use the value in equations later
   height: 300,
-  axisMax: 100, 
-  axisMin: 0, 
+  axisMax: 90, 
+  axisMin: 20, 
   barSpacing: 15,
   // numValTop: true,
   // numValCentre: false,
@@ -58,7 +58,7 @@ $(document).ready( function() {
         bar.appendTo($chartArea).attr("id", "bar" + i.toString()); // Give each bar a css id named bar + index , i.e #bar0, #bar1, #bar2 etc.
         $('#bar' + i.toString()).css({     // Define CSS attributes for each class
           "allign-self": "flex-end",      // Alligns each bar to the bottom of the container
-          "height" : data[i]*options.height/(options.axisMax - options.axisMin),        //Adds Y-axis functionality by including axisMax and axisMin, and adjusting the height of the bars to these values
+          "height" : (data[i] - options.axisMin)*options.height/(options.axisMax - options.axisMin),        //Adds Y-axis functionality by including axisMax and axisMin, and adjusting the height of the bars to these values
           "width" : (options.width - (data.length - 1)*options.barSpacing) / data.length,  // Splits the width of each bar evenly amongst container width, considering the barSpacing value specified in options
           "margin-right" : options.barSpacing,   // Add barSpacing option to margins of each bar div
           "margin-left" : options.barSpacing,
