@@ -9,13 +9,14 @@ let options1 = {                // Test options
   // GRID OPTIONS \\ 
   axisMax: 100, 
   axisMin: 0,
+  interval : 10,
   
   // BAR OPTIONS \\
   barSpacing: 20,
   barColor: ['orange', 'violet', 'blue', 'red', 'green'],
 
   // LABEL OPTIONS \\
-  labelSize: 40,
+  labelSize: 15,
   labelNames : ["Label1", "Label2", "Label3", "Label4", "Label5"],
 
   // COLOUR OPTIONS \\
@@ -108,7 +109,7 @@ $(document).ready( function() {
         $('#x-axis').css( {
           'display' : "flex",
           'height'  : 0.2*options.height,
-          'width' : options.width,
+          'width' : options.width,                     // Set width of label div to the same width as the bar chart area
           'background-color' : options.backgroundColor,
           "background-image": 'url(asfalt-light.png)'
         });
@@ -119,7 +120,8 @@ $(document).ready( function() {
               "width" : (options.width - (data.length - 1)*options.barSpacing) / data.length,
               "margin-right" : options.barSpacing,   // Add barSpacing option to margins of each bar div
               "margin-left" : options.barSpacing,
-              "text-align" : "center"
+              "text-align" : "center",
+              "font-size"  : options.labelSize
             })
             label.appendTo(xAxis);
             let labelText = $('<p>');
