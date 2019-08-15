@@ -9,7 +9,7 @@ let options1 = {                // Test options
   // GRID OPTIONS \\ 
   axisMax: 100, 
   axisMin: 0,
-  interval : 10,
+  interval : 5,
   
   // BAR OPTIONS \\
   barSpacing: 20,
@@ -106,17 +106,44 @@ $(document).ready( function() {
 
             }
           }
-        
+          
         function makeYAxis() {
           let yAxis = $('<div>')
           yAxis.appendTo($labelArea);
           $(yAxis).css({
-            "grid-column-start" : 1,
-            "grid-column-end" : 2,
+            "grid-column-start" : 2,
+            "grid-column-end" : 3,
             "grid-row-start" : 1,
             "grid-row-end" : 3,
             "background-color" : 'red'
           })
+        }
+
+        function makeTicks() {
+          let ticksDiv = $('<div>'); 
+          ticksDiv.appendTo($labelArea);
+          $(ticksDiv).css({
+            "grid-column-start" : 3,
+            "grid-column-end" : 4,
+            "grid-row-start" : 1,
+            "grid-row-end" : 2,
+            "display" : "flex",
+            "flex-direction" : "column",
+            // "background-color" : "blue"
+          });
+          
+          let intervalHeight = options.height/options.interval;
+          for (let i = 0; i < options.interval; i++) {
+            let ticks = $('<div>');
+            $(ticks).css({
+              "height" : intervalHeight,
+              "border-top-style": "none",
+              "border-right-style": "none",
+              "border-bottom-style": "solid",
+              "border-left-style": "none"
+            })
+            ticks.appendTo(ticksDiv);
+          }
         }
       
       function makeBarLabels() {
@@ -156,6 +183,7 @@ $(document).ready( function() {
         }
       
       makeYAxis();
+      makeTicks();
       makeBars();
       displayBarValues();
       makeBarLabels();
