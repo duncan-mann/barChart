@@ -44,7 +44,7 @@ $(document).ready( function() {
     "height": 1.2*options.height,                     // Adds CSS class height from options object
     "display": "grid",                                // Use CSS grid to organize bar chart, labels, and title 
     "grid-template-rows" : options.height + "px " + 0.2*options.height + "px",   
-    "grid-template-columns": 0.19*options.width + "px " + 0.01*options.width + "px " + options.width + "px",      // Created columns 3 columns -  y axis values, tick marks, and bar chart contents  
+    "grid-template-columns": (0.19/2)*options.width + "px " + (0.19/2)*options.width + "px " + 0.01*options.width + "px " + options.width + "px",      // Created columns 3 columns -  y axis values, tick marks, and bar chart contents  
     "background-color": options.backgroundColor,      // Adds CSS class background-color from options object
     "background-image": 'url(asfalt-light.png)'   
   });
@@ -53,8 +53,8 @@ $(document).ready( function() {
   $chartArea.prependTo($labelArea).attr("id", "innerBarChart");   //Adds this div to the top of the body tag
   $('#innerBarChart').css({
     //CSS Grid Child properties
-    "grid-column-start" : 3,                   
-    "grid-column-end" : 4,
+    "grid-column-start" : 4,                   
+    "grid-column-end" : 5,
     "grid-row-start" : 1,
     "grid-row-end" : 2,
     // Flexbox Container properties
@@ -115,21 +115,7 @@ $(document).ready( function() {
             "grid-column-end" : 2,
             "grid-row-start" : 1,
             "grid-row-end" : 3,
-            'display' : 'grid',
-            "grid-template-columns" : 0.1*options.width + "px " + 0.1*options.width + "px",
             "background-color" : 'red'
-          })
-        }
-
-        function makeYAxisNums() {
-          let yNumDiv = $('<div>')
-          yNumDiv.appendTo(yAxis);
-          $(yNumDiv).css({
-            "grid-column-start" : 1,
-            "grid-column-end" : 2,
-            "grid-row-start" : 1,
-            "grid-row-end" : 2,
-            "background-color" : 'purple'
           })
         }
       
@@ -138,8 +124,8 @@ $(document).ready( function() {
 
         xAxis.appendTo($labelArea).attr("id", "x-axis");  //Create div for individual bar labels to be contained
         $('#x-axis').css( {
-          "grid-column-start" : 3,
-          "grid-column-end" : 4,
+          "grid-column-start" : 4,
+          "grid-column-end" : 5,
           "grid-row-start" : 2,
           "grid-row-end" : 3,
           'display' : "flex",
