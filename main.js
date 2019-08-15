@@ -40,11 +40,11 @@ $(document).ready( function() {
 
         $labelArea.prependTo(element).attr("id", "barChart");   //Adds this div to the top of the body tag
   $('#barChart').css({
-    "display": "grid",                                // Use CSS grid to organize bar chart, labels, and title 
-    "grid-template-rows" : options.height + " auto",
-    "grid-template-columns": options.width + " auto",                  
     "width" : 1.2*options.width,                      // Adds CSS class width from options object
     "height": 1.2*options.height,                     // Adds CSS class height from options object
+    "display": "grid",                                // Use CSS grid to organize bar chart, labels, and title 
+    "grid-template-rows" : options.height + "px " + 0.2*options.height + "px",   
+    "grid-template-columns": 0.19*options.width + "px " + 0.01*options.width + "px " + options.width + "px",      // Created columns 3 columns -  y axis values, tick marks, and bar chart contents  
     "background-color": options.backgroundColor,      // Adds CSS class background-color from options object
     "background-image": 'url(asfalt-light.png)'   
   });
@@ -52,6 +52,12 @@ $(document).ready( function() {
 
   $chartArea.prependTo($labelArea).attr("id", "innerBarChart");   //Adds this div to the top of the body tag
   $('#innerBarChart').css({
+    //CSS Grid Child properties
+    "grid-column-start" : 3,                   
+    "grid-column-end" : 4,
+    "grid-row-start" : 1,
+    "grid-row-end" : 2,
+    // Flexbox Container properties
     "display": "flex",                      // Use flexbox later to organize bars within chart
     "flex-direction": "row",
     "align-items" : "flex-end",                      
@@ -60,6 +66,7 @@ $(document).ready( function() {
     "background-color": options.backgroundColor,
     "background-image": 'url(asfalt-light.png)'  
       });
+    
 
       
     
@@ -69,7 +76,7 @@ $(document).ready( function() {
         let bar = $('<div>');               // Create div which will act as the bar
         bar.appendTo($chartArea).attr("id", "bar" + i.toString()); // Give each bar a css id named bar + index , i.e #bar0, #bar1, #bar2 etc.
         $('#bar' + i.toString()).css({     // Define CSS attributes for each class
-          "allign-self": "flex-end",      // Alligns each bar to the bottom of the container
+          "allign-self": "flex-end",      //  Alligns each bar to the bottom of the container
           "height" : (data[i] - options.axisMin)*options.height/(options.axisMax - options.axisMin),        //Adds Y-axis functionality by including axisMax and axisMin, and adjusting the height of the bars to these values
           "width" : (options.width - (data.length - 1)*options.barSpacing) / data.length,  // Splits the width of each bar evenly amongst container width, considering the barSpacing value specified in options
           "margin-right" : options.barSpacing,   // Add barSpacing option to margins of each bar div
@@ -100,13 +107,41 @@ $(document).ready( function() {
             }
           }
         
+        function makeYAxis() {
+          let yAxis = $('<div>')
+          yAxis.appendTo($labelArea);
+          $(yAxis).css({
+            "grid-column-start" : 1,
+            "grid-column-end" : 2,
+            "grid-row-start" : 1,
+            "grid-row-end" : 3,
+            'display' : 'grid',
+            "grid-template-columns" : 0.1*options.width + "px " + 0.1*options.width + "px",
+            "background-color" : 'red'
+          })
+        }
 
+        function makeYAxisNums() {
+          let yNumDiv = $('<div>')
+          yNumDiv.appendTo(yAxis);
+          $(yNumDiv).css({
+            "grid-column-start" : 1,
+            "grid-column-end" : 2,
+            "grid-row-start" : 1,
+            "grid-row-end" : 2,
+            "background-color" : 'purple'
+          })
+        }
       
       function makeBarLabels() {
         let xAxis = $('<div>'); 
 
         xAxis.appendTo($labelArea).attr("id", "x-axis");  //Create div for individual bar labels to be contained
         $('#x-axis').css( {
+          "grid-column-start" : 3,
+          "grid-column-end" : 4,
+          "grid-row-start" : 2,
+          "grid-row-end" : 3,
           'display' : "flex",
           'height'  : 0.2*options.height,
           'width' : options.width,                     // Set width of label div to the same width as the bar chart area
@@ -133,7 +168,8 @@ $(document).ready( function() {
             
           }
         }
-
+      
+      makeYAxis();
       makeBars();
       displayBarValues();
       makeBarLabels();
