@@ -9,14 +9,14 @@ let options1 = {                // Test options
   // GRID OPTIONS \\ 
   axisMax: 100, 
   axisMin: 0,
-  interval : 5,
+  interval : 4,
   
   // BAR OPTIONS \\
   barSpacing: 20,
   barColor: ['orange', 'violet', 'blue', 'red', 'green'],
 
   // LABEL OPTIONS \\
-  labelSize: 15,
+  labelSize: 7,
   labelNames : ["Label1", "Label2", "Label3", "Label4", "Label5"],
 
   // COLOUR OPTIONS \\
@@ -38,12 +38,12 @@ $(document).ready( function() {
         let $labelArea = $('<div>'); // Created larger div to hold the chartArea div, which will also have labels for each axis, as well as the title
         let $chartArea = $('<div>');  //Created div to contain bar chart
 
-        $labelArea.prependTo(element).attr("id", "barChart");   //Adds this div to the top of the body tag
-  $('#barChart').css({
+        $labelArea.prependTo(element);   //Adds this div to the top of the body tag
+  $($labelArea).css({
     "width" : 1.2*options.width,                      // Adds CSS class width from options object
-    "height": 1.2*options.height,                     // Adds CSS class height from options object
+    "height": (options.height/options.interval) + options.height,                     // Adds CSS class height from options object
     "display": "grid",                                // Use CSS grid to organize bar chart, labels, and title 
-    "grid-template-rows" : options.height + "px " + 0.2*options.height + "px",   
+    "grid-template-rows" : ((options.height/options.interval)/2) + "px " + options.height + "px " + ((options.height/options.interval)/2) + "px",                          // The first row is sized to be half the size of the divs created later to contain y-axis labels. This insures that the labels always meet at the tick marks. The second row is the height of the bar chart contents, defined in the options. The third row is for the x-axis labels. 
     "grid-template-columns": (0.19/2)*options.width + "px " + (0.19/2)*options.width + "px " + 0.01*options.width + "px " + options.width + "px",      // Created columns 3 columns -  y axis values, tick marks, and bar chart contents  
     "background-color": options.backgroundColor,      // Adds CSS class background-color from options object
     "background-image": 'url(asfalt-light.png)'   
@@ -55,8 +55,8 @@ $(document).ready( function() {
     //CSS Grid Child properties
     "grid-column-start" : 4,                   
     "grid-column-end" : 5,
-    "grid-row-start" : 1,
-    "grid-row-end" : 2,
+    "grid-row-start" : 2,
+    "grid-row-end" : 3,
     // Flexbox Container properties
     "display": "flex",                      // Use flexbox later to organize bars within chart
     "flex-direction": "row",
@@ -107,42 +107,76 @@ $(document).ready( function() {
             }
           }
           
-        function makeYAxis() {
-          let yAxis = $('<div>')
-          yAxis.appendTo($labelArea);
-          $(yAxis).css({
-            "grid-column-start" : 2,
-            "grid-column-end" : 3,
-            "grid-row-start" : 1,
-            "grid-row-end" : 3,
-            "background-color" : 'red'
-          })
-        }
-
         function makeTicks() {
           let ticksDiv = $('<div>'); 
           ticksDiv.appendTo($labelArea);
           $(ticksDiv).css({
             "grid-column-start" : 3,
             "grid-column-end" : 4,
-            "grid-row-start" : 1,
-            "grid-row-end" : 2,
+            "grid-row-start" : 2,
+            "grid-row-end" : 3,
             "display" : "flex",
             "flex-direction" : "column",
-            // "background-color" : "blue"
+           
           });
           
           let intervalHeight = options.height/options.interval;
           for (let i = 0; i < options.interval; i++) {
             let ticks = $('<div>');
-            $(ticks).css({
-              "height" : intervalHeight,
-              "border-top-style": "none",
-              "border-right-style": "none",
-              "border-bottom-style": "solid",
-              "border-left-style": "none"
+            if (i === 0) {
+              $(ticks).css({
+                "height" : intervalHeight,
+                "border-top-style": "solid",   // Creates the top tick mark
+                "border-right-style": "none",
+                "border-bottom-style": "solid",
+                "border-left-style": "none",
+                "border-width" : "2px"
+              })
+            } else {
+              $(ticks).css({
+                "height" : intervalHeight,  // All other divs onlt have a bottom tick mark so that borders from adjacent divs don't overlap
+                "border-top-style": "none",
+                "border-right-style": "none",
+                "border-bottom-style": "solid",
+                "border-left-style": "none",
+                "border-width" : "2px"
             })
+            };
             ticks.appendTo(ticksDiv);
+          }
+        }
+
+        function makeYAxisLabels() {  //Added 'makeYAxis function to this one instead, as the yAxis variable within that function couldnt be accesse din this one
+
+          let yAxis = $('<div>')
+          yAxis.appendTo($labelArea);
+          $(yAxis).css({
+            "grid-column-start" : 2,
+            "grid-column-end" : 3,
+            "grid-row-start" : 1,
+            "grid-row-end" : 4,
+            "display" : "flex",
+            "flex-direction" : "column"
+          });
+
+          for (let i = 0; i <= options.interval; i++) {
+            let yValue = $('<div>');
+            $(yValue).css({
+              "height" : options.height/options.interval,
+              "text-align" : "center"
+            });
+            
+            let yNum = $('<p>');
+            $(yNum).css({
+              "display" : "inline-block"
+            });
+            if (i === 0) {
+              $(yNum).text(options.axisMin.toString());
+            } else {
+              $(yNum).text((options.axisMin + i*((options.axisMax - options.axisMin)/options.interval).toString()));
+            }
+            yNum.appendTo(yValue);
+            yValue.prependTo(yAxis);
           }
         }
       
@@ -153,10 +187,10 @@ $(document).ready( function() {
         $('#x-axis').css( {
           "grid-column-start" : 4,
           "grid-column-end" : 5,
-          "grid-row-start" : 2,
-          "grid-row-end" : 3,
+          "grid-row-start" : 3,
+          "grid-row-end" : 4,
           'display' : "flex",
-          'height'  : 0.2*options.height,
+          'height'  : ((options.height/options.interval)/2),
           'width' : options.width,                     // Set width of label div to the same width as the bar chart area
           'background-color' : options.backgroundColor,
           "background-image": 'url(asfalt-light.png)'
@@ -182,7 +216,8 @@ $(document).ready( function() {
           }
         }
       
-      makeYAxis();
+    
+      makeYAxisLabels();
       makeTicks();
       makeBars();
       displayBarValues();
