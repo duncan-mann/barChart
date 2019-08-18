@@ -20,7 +20,7 @@ let options1 = {                // Test options
   labelNames : ["Label1", "Label2", "Label3", "Label4", "Label5"],
 
   // COLOUR OPTIONS \\
-  backgroundColor: '#0c7ba3',
+  backgroundColor: 'grey',
   labelColor: 'white',
 
  // TITLE OPTIONS \\
@@ -163,12 +163,14 @@ $(document).ready( function() {
             let yValue = $('<div>');
             $(yValue).css({
               "height" : options.height/options.interval,
-              "text-align" : "center"
+              "text-align" : "center",
+              "padding" : "10% 0",
             });
             
             let yNum = $('<p>');
             $(yNum).css({
-              "display" : "inline-block"
+              "display" : "inline-block",
+              "padding" : "10% 0"
             });
             if (i === 0) {
               $(yNum).text(options.axisMin.toString());
