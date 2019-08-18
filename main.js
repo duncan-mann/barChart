@@ -227,7 +227,7 @@ $(document).ready( function() {
         let titleDiv = $('<div>');
         titleDiv.appendTo($labelArea);
         $(titleDiv).css({
-          "grid-column-start" : 4,
+          "grid-column-start" : 2,
           "grid-column-end" : 5,
           "grid-row-start" : 1,
           "grid-row-end" : 2,
