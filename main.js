@@ -1,10 +1,10 @@
-let data1 = [35, 24, 68, 87, 47]; // Test data
+let data1 = [15, 22, 76, 30, 97, 46, 65]; // Test data
 let element1 = $('body');        // Test element (body tag);
 let options1 = {                // Test options
   
   // CHART SIZE (pixels) \\
   width: 500,  // Automatically converts to pixels - leave this so we can use the value in equations later
-  height: 300,
+  height: 400,
 
   // GRID OPTIONS \\ 
   axisMax: 100, 
@@ -13,11 +13,12 @@ let options1 = {                // Test options
   
   // BAR OPTIONS \\
   barSpacing: 20,
-  barColor: ['orange', 'violet', 'blue', 'red', 'green'],
+  barColor: ['orange', 'violet', 'blue', 'red', 'green', 'purple', 'gold'],
 
   // LABEL OPTIONS \\
-  labelSize: 7,
-  labelNames : ["Label1", "Label2", "Label3", "Label4", "Label5"],
+  xLabelSize: 7,
+  yLabelSize: 10,
+  labelNames : ["Label1", "Label2", "Label3", "Label4", "Label5", "Label6", "Label7"],
 
   // COLOUR OPTIONS \\
   backgroundColor: 'grey',
@@ -25,9 +26,10 @@ let options1 = {                // Test options
 
  // TITLE OPTIONS \\
 
-  title: undefined,
-  titleSize: undefined,
-  titleColor: undefined
+  title: "Bar Chart",
+  titleSize: 25,
+  titleColor: "red",
+  titleFont: undefined
 }
 
 $(document).ready( function() {
@@ -163,14 +165,17 @@ $(document).ready( function() {
             let yValue = $('<div>');
             $(yValue).css({
               "height" : options.height/options.interval,
-              "text-align" : "center",
-              "padding" : "10% 0",
+              "text-align" : "right",
+              "margin-right" : "4px"
             });
             
             let yNum = $('<p>');
             $(yNum).css({
               "display" : "inline-block",
-              "padding" : "10% 0"
+              "font-size"  : options.yLabelSize,
+              "font-style" : "italic"    ,
+              "line-height" : options.height/options.interval + "px",
+              "margin" : "0px"          
             });
             if (i === 0) {
               $(yNum).text(options.axisMin.toString());
@@ -205,7 +210,7 @@ $(document).ready( function() {
               "margin-right" : options.barSpacing,   // Add barSpacing option to margins of each bar div
               "margin-left" : options.barSpacing,
               "text-align" : "center",
-              "font-size"  : options.labelSize
+              "font-size"  : options.xLabelSize
             })
             label.appendTo(xAxis);
             let labelText = $('<p>');
@@ -218,12 +223,33 @@ $(document).ready( function() {
           }
         }
       
+      function makeTitle() {
+        let titleDiv = $('<div>');
+        titleDiv.appendTo($labelArea);
+        $(titleDiv).css({
+          "grid-column-start" : 4,
+          "grid-column-end" : 5,
+          "grid-row-start" : 1,
+          "grid-row-end" : 2,
+          "text-align" : "center",
+          // "line-height" : ((options.height/options.interval)/2)
+        });
+        let title = $('<p>');
+        title.appendTo(titleDiv);
+        $(title).text(options.title);
+        $(title).css({
+          "font-size" : options.titleSize,
+          "margin" : "3%"
+        })
+      }
+      
     
       makeYAxisLabels();
       makeTicks();
       makeBars();
       displayBarValues();
       makeBarLabels();
+      makeTitle();
         };
         barChart(data1, options1, element1);
       })
