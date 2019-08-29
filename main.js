@@ -1,10 +1,10 @@
-let data1 = [15, 22, 76, 30, 97, 46, 65]; // Test data
+let data1 = [50, 43, 20, 67, 65, 55, 99]; // Test data
 let element1 = $('body');        // Test element (body tag);
 let options1 = {                // Test options
   
   // CHART SIZE (pixels) \\
   width: 500,  // Automatically converts to pixels - leave this so we can use the value in equations later
-  height: 400,
+  height: 200,
 
   // GRID OPTIONS \\ 
   axisMax: 100, 
@@ -18,7 +18,11 @@ let options1 = {                // Test options
   // LABEL OPTIONS \\
   xLabelSize: 7,
   yLabelSize: 10,
+  yTitle: "Number of Things",
+  yTitleSize: 15,
+  barLabelSize: 10,
   labelNames : ["Label1", "Label2", "Label3", "Label4", "Label5", "Label6", "Label7"],
+  labelDisplay : "flex-end", // "flex-start" for top , "center" for middle, or "flex-end" for bottom
 
   // COLOUR OPTIONS \\
   backgroundColor: 'grey',
@@ -84,7 +88,9 @@ $(document).ready( function() {
           "margin-right" : options.barSpacing,   // Add barSpacing option to margins of each bar div
           "margin-left" : options.barSpacing,
           "background-color": options.barColor[i],  // Add barColor from options
-          "border-radius": "10px 10px 0px 0px"
+          "border-radius": "10px 10px 0px 0px",
+          "display" : "flex",
+          "align-items" : options.labelDisplay
           })  
         }
       }  
@@ -94,15 +100,15 @@ $(document).ready( function() {
             let barValueDiv = $('<div>');
             barValueDiv.appendTo('#bar' + i.toString()).attr("id", "barValue" + i.toString()); //Creates a div within each bar, and gives it a CSS id of barValue0. barValue1, etc.
             
-          
-            
             $(barValueDiv).css({
               "text-align" : "center"
             })
+       
             let barValue = $('<p>');
             $(barValue).text(data[i]);
             $(barValue).css({
-              "display" : "inline-block"
+              "display" : "inline-block",
+              "font-size" : options.barLabelSize
             })
             barValue.appendTo(barValueDiv);
 
@@ -186,6 +192,29 @@ $(document).ready( function() {
             yValue.prependTo(yAxis);
           }
         }
+
+      function makeYAxisTitle() {
+        let yTitleDiv = $('<div>');
+        yTitleDiv.appendTo($labelArea);
+        $(yTitleDiv).css({
+          "grid-column-start" : 1,
+          "grid-column-end" : 2,
+          "grid-row-start" : 2,
+          "grid-row-end" : 3,
+          // "background-color" : "red",
+        })
+        let yTitle = $('<p>');
+        $(yTitle).text(options.yTitle);
+        $(yTitle).css({
+          "font-size" : options.yTitleSize,
+          "font-style" : "italic",
+          "margin" : "0px",
+          "position" : "fixed",
+          "width" : 0.8*options.height,
+          "transform" : "rotate(-90deg)",
+        })
+        yTitle.appendTo(yTitleDiv)
+      }
       
       function makeBarLabels() {
         let xAxis = $('<div>'); 
@@ -245,6 +274,7 @@ $(document).ready( function() {
       
     
       makeYAxisLabels();
+      makeYAxisTitle();
       makeTicks();
       makeBars();
       displayBarValues();
