@@ -4,7 +4,7 @@ let options1 = {                // Test options
   
   // CHART SIZE (pixels) \\
   width: 500,  // Automatically converts to pixels - leave this so we can use the value in equations later
-  height: 200,
+  height: 400,
 
   // GRID OPTIONS \\ 
   axisMax: 100, 
@@ -15,14 +15,15 @@ let options1 = {                // Test options
   barSpacing: 20,
   barColor: ['orange', 'violet', 'blue', 'red', 'green', 'purple', 'gold'],
 
+
   // LABEL OPTIONS \\
   xLabelSize: 7,
   yLabelSize: 10,
   yTitle: "Number of Things",
   yTitleSize: 15,
-  barLabelSize: 10,
+  barLabelSize: 15,
   labelNames : ["Label1", "Label2", "Label3", "Label4", "Label5", "Label6", "Label7"],
-  labelDisplay : "flex-end", // "flex-start" for top , "center" for middle, or "flex-end" for bottom
+  labelDisplay : "center", // "flex-start" for top , "center" for middle, or "flex-end" for bottom
 
   // COLOUR OPTIONS \\
   backgroundColor: 'grey',
@@ -90,6 +91,7 @@ $(document).ready( function() {
           "background-color": options.barColor[i],  // Add barColor from options
           "border-radius": "10px 10px 0px 0px",
           "display" : "flex",
+          "justify-content" : "center",
           "align-items" : options.labelDisplay
           })  
         }
