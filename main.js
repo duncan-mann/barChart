@@ -20,7 +20,7 @@ let options1 = {                // Test options
   xLabelSize: 7,
   yLabelSize: 10,
   yTitle: "Number of Things",
-  yTitleSize: 15,
+  yTitleSize: 17,
   barLabelSize: 15,
   labelNames : ["Label1", "Label2", "Label3", "Label4", "Label5", "Label6", "Label7"],
   labelDisplay : "center", // "flex-start" for top , "center" for middle, or "flex-end" for bottom
@@ -200,22 +200,25 @@ $(document).ready( function() {
         yTitleDiv.appendTo($labelArea);
         $(yTitleDiv).css({
           "grid-column-start" : 1,
-          "grid-column-end" : 2,
+          "grid-column-end" : 3,
           "grid-row-start" : 2,
           "grid-row-end" : 3,
-          // "background-color" : "red",
+          "display" : "flex",
+          "justify-content" : "center",
+          "align-items" : "center"
         })
-        let yTitle = $('<p>');
+        let yTitle = $('<div>');
+        yTitle.appendTo(yTitleDiv)
         $(yTitle).text(options.yTitle);
         $(yTitle).css({
           "font-size" : options.yTitleSize,
           "font-style" : "italic",
-          "margin" : "0px",
-          "position" : "fixed",
-          "width" : 0.8*options.height,
+          "position" : "absolute",
           "transform" : "rotate(-90deg)",
+          "width" : options.height,
+          "text-align" : "center",
+          "font-size" : options.yTitleSize
         })
-        yTitle.appendTo(yTitleDiv)
       }
       
       function makeBarLabels() {
