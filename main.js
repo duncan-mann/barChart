@@ -1,4 +1,4 @@
-let data1 = [50, 43, 20, 67, 65, 55, 99]; // Test data
+let data1 = [20, 26, 55, 85, 55, 26, 20]; // Test data
 let element1 = $('body');        // Test element (body tag);
 let options1 = {                // Test options
   
@@ -13,7 +13,7 @@ let options1 = {                // Test options
   
   // BAR OPTIONS \\
   barSpacing: 20,
-  barColor: ['orange', 'violet', 'blue', 'red', 'green', 'purple', 'gold'],
+  barColor: ['#6ed3cf', '#9068be', '#e62739', '#f2b1d8', '#ffdc6a', '#bccbde', '#3d7c47'],
 
 
   // LABEL OPTIONS \\
@@ -26,7 +26,7 @@ let options1 = {                // Test options
   labelDisplay : "center", // "flex-start" for top , "center" for middle, or "flex-end" for bottom
 
   // COLOUR OPTIONS \\
-  backgroundColor: 'grey',
+  backgroundColor: '#e1e8f0',
   labelColor: 'white',
 
  // TITLE OPTIONS \\
@@ -89,7 +89,7 @@ $(document).ready( function() {
           "margin-right" : options.barSpacing,   // Add barSpacing option to margins of each bar div
           "margin-left" : options.barSpacing,
           "background-color": options.barColor[i],  // Add barColor from options
-          "border-radius": "10px 10px 0px 0px",
+          "border-radius": "5px 5px 0px 0px",
           "display" : "flex",
           "justify-content" : "center",
           "align-items" : options.labelDisplay
