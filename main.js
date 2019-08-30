@@ -1,28 +1,28 @@
-let data1 = [20, 26, 55, 85, 55, 26, 20]; // Test data
+let data1 = [[3,7], [6,2],[6,2],[6,2],[6,2],[6,2],[6,2]]; // Test data
 let element1 = $('body');        // Test element (body tag);
 let options1 = {                // Test options
   
   // CHART SIZE (pixels) \\
-  width: 500,  // Automatically converts to pixels - leave this so we can use the value in equations later
+  width: 450,  // Automatically converts to pixels - leave this so we can use the value in equations later
   height: 400,
 
   // GRID OPTIONS \\ 
-  axisMax: 100, 
-  axisMin: 0,
+  axisMax: 8, 
+  axisMin: 1.5,
   interval : 4,
   
   // BAR OPTIONS \\
-  barSpacing: 20,
-  barColor: ['#6ed3cf', '#9068be', '#e62739', '#f2b1d8', '#ffdc6a', '#bccbde', '#3d7c47'],
+  barSpacing: 10,
+  barColor: [['#6ed3cf', "blue"], ['#9068be', "blue"], ['#e62739', "blue"], ['#f2b1d8', "blue"], ['#ffdc6a', "blue"], ['#bccbde', "blue"], ['#3d7c47', "blue"]],
 
 
   // LABEL OPTIONS \\
-  xLabelSize: 7,
+  xLabelSize: 9,
   yLabelSize: 10,
-  yTitle: "Number of Things",
+  yTitle: "Number of Pizzas",
   yTitleSize: 17,
   barLabelSize: 15,
-  labelNames : ["Label1", "Label2", "Label3", "Label4", "Label5", "Label6", "Label7"],
+  labelNames : ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
   labelDisplay : "center", // "flex-start" for top , "center" for middle, or "flex-end" for bottom
 
   // COLOUR OPTIONS \\
@@ -31,7 +31,7 @@ let options1 = {                // Test options
 
  // TITLE OPTIONS \\
 
-  title: "Bar Chart",
+  title: "Pizzas Eaten this Week",
   titleSize: 25,
   titleColor: "red",
   titleFont: undefined
@@ -91,8 +91,8 @@ $(document).ready( function() {
           "background-color": options.barColor[i],  // Add barColor from options
           "border-radius": "5px 5px 0px 0px",
           "display" : "flex",
-          "justify-content" : "center",
-          "align-items" : options.labelDisplay
+          "justify-content" : "center", // Centers bar value horizontally
+          "align-items" : options.labelDisplay // Alligns bar value vertically as specified in options
           })  
         }
       }  
@@ -116,6 +116,57 @@ $(document).ready( function() {
 
             }
           }
+
+          function makeBarsStacked() {
+            for(let i =0; i < data.length; i++) {  // Looping to create every bar in bar chart
+              let barArea = $('<div>');
+              barArea.appendTo($chartArea);
+              $(barArea).css({
+                "align-self" : "flex-end",
+                "height" : options.height,
+                "width" : (options.width - (data.length - 1)*options.barSpacing) / data.length, // Splits the width of each bar evenly amongst container width, considering the barSpacing value specified in options
+                "margin-right" : options.barSpacing,   // Add barSpacing option to margins of each bar div
+                "margin-left" : options.barSpacing,
+                "display" : "flex"
+              })
+              
+              for(let j = 0; j < data[i].length; j++) {
+              let bar = $('<div>');               // Create div which will act as the bar
+              bar.appendTo(barArea).attr("id", "bar" + i.toString() + j.toString()); // Give each bar a css id named bar + index , i.e #bar0, #bar1, #bar2 etc.
+              $(bar).css({     // Define CSS attributes for each class
+                "allign-self": "flex-end",      //  Alligns each bar to the bottom of the container
+                "height" : (data[i][j] - options.axisMin)*options.height/(options.axisMax - options.axisMin),        //Adds Y-axis functionality by including axisMax and axisMin, and adjusting the height of the bars to these values
+                "width" : (options.width - (data.length - 1)*options.barSpacing) / (2*data.length),  
+                "background-color": options.barColor[i][j],  // Add barColor from options
+                "border-radius": "5px 5px 0px 0px",
+                "display" : "flex",
+                "justify-content" : "center",
+                "align-items" : options.labelDisplay
+                })  
+                }
+              }
+            }  
+      
+              function displayBarValuesStacked() {
+                for (let i=0; i < data.length; i++) {
+                  for (let j = 0; j < data[i].length; j++) {
+                  let barValueDiv = $('<div>');
+                  barValueDiv.appendTo('#bar' + i.toString() + j.toString()); //Creates a div within each bar, and gives it a CSS id of barValue0. barValue1, etc.
+                  
+                  $(barValueDiv).css({
+                    "text-align" : "center"
+                  })
+             
+                  let barValue = $('<p>');
+                  $(barValue).text(data[i][j]);
+                  $(barValue).css({
+                    "display" : "inline-block",
+                    "font-size" : options.barLabelSize
+                  })
+                  barValue.appendTo(barValueDiv);
+                   }
+                  }
+                }
           
         function makeTicks() {
           let ticksDiv = $('<div>'); 
@@ -277,12 +328,17 @@ $(document).ready( function() {
         })
       }
       
+      if (data[0].length !== undefined) {
+        makeBarsStacked();
+      displayBarValuesStacked();
+      } else {
+        makeBars();
+      displayBarValues();
+      }
     
       makeYAxisLabels();
       makeYAxisTitle();
       makeTicks();
-      makeBars();
-      displayBarValues();
       makeBarLabels();
       makeTitle();
         };
