@@ -1,4 +1,5 @@
-let data1 = [[3,7], [6,2],[6,2],[6,2],[6,2],[6,2],[6,2]]; // Test data
+let data1 = [[10,20,30], [15,25,35],[20,30,40],[40,50,60]]; // Test data
+// let data1 = [20, 25, 55, 90, 55, 25, 20]; // Test data
 let element1 = $('body');        // Test element (body tag);
 let options1 = {                // Test options
   
@@ -7,22 +8,24 @@ let options1 = {                // Test options
   height: 400,
 
   // GRID OPTIONS \\ 
-  axisMax: 8, 
-  axisMin: 1.5,
+  axisMax: 100, 
+  axisMin: 0,
   interval : 4,
   
   // BAR OPTIONS \\
-  barSpacing: 10,
-  barColor: [['#6ed3cf', "blue"], ['#9068be', "blue"], ['#e62739', "blue"], ['#f2b1d8', "blue"], ['#ffdc6a', "blue"], ['#bccbde', "blue"], ['#3d7c47', "blue"]],
+  barSpacing: 30,
+  barColor: [['#6ed3cf', '#9068be', '#e62739'], ['#6ed3cf', '#9068be', '#e62739'], ['#6ed3cf', '#9068be', '#e62739'], ['#6ed3cf', '#9068be', '#e62739']],
+  // barColor: ['#6ed3cf', '#9068be', '#e62739', '#f2b1d8','#ffdc6a', '#bccbde', '#3d7c47'],
 
 
   // LABEL OPTIONS \\
   xLabelSize: 9,
   yLabelSize: 10,
-  yTitle: "Number of Pizzas",
+  yTitle: "Number of Things",
   yTitleSize: 17,
   barLabelSize: 15,
-  labelNames : ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+  // labelNames : ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+  labelNames : ["Monday", "Tuesday", "Wednesday", "Thursday"],
   labelDisplay : "center", // "flex-start" for top , "center" for middle, or "flex-end" for bottom
 
   // COLOUR OPTIONS \\
@@ -31,7 +34,7 @@ let options1 = {                // Test options
 
  // TITLE OPTIONS \\
 
-  title: "Pizzas Eaten this Week",
+  title: "Bar Chart",
   titleSize: 25,
   titleColor: "red",
   titleFont: undefined
@@ -86,8 +89,8 @@ $(document).ready( function() {
           "allign-self": "flex-end",      //  Alligns each bar to the bottom of the container
           "height" : (data[i] - options.axisMin)*options.height/(options.axisMax - options.axisMin),        //Adds Y-axis functionality by including axisMax and axisMin, and adjusting the height of the bars to these values
           "width" : (options.width - (data.length - 1)*options.barSpacing) / data.length,  // Splits the width of each bar evenly amongst container width, considering the barSpacing value specified in options
-          "margin-right" : options.barSpacing,   // Add barSpacing option to margins of each bar div
-          "margin-left" : options.barSpacing,
+          "margin-right" : options.barSpacing/2,   // Add barSpacing option to margins of each bar div
+          "margin-left" : options.barSpacing/2,
           "background-color": options.barColor[i],  // Add barColor from options
           "border-radius": "5px 5px 0px 0px",
           "display" : "flex",
@@ -122,19 +125,19 @@ $(document).ready( function() {
               let barArea = $('<div>');
               barArea.appendTo($chartArea);
               $(barArea).css({
-                "align-self" : "flex-end",
                 "height" : options.height,
-                "width" : (options.width - (data.length - 1)*options.barSpacing) / data.length, // Splits the width of each bar evenly amongst container width, considering the barSpacing value specified in options
-                "margin-right" : options.barSpacing,   // Add barSpacing option to margins of each bar div
-                "margin-left" : options.barSpacing,
-                "display" : "flex"
+                "width" : (options.width/data.length) - (options.barSpacing), // Splits the width of each bar evenly amongst container width, considering the barSpacing value specified in options
+                "margin-right" : options.barSpacing/2,   // Add barSpacing option to margins of each bar div
+                "margin-left" : options.barSpacing/2,
+                "display" : "flex",
+               
               })
               
               for(let j = 0; j < data[i].length; j++) {
               let bar = $('<div>');               // Create div which will act as the bar
               bar.appendTo(barArea).attr("id", "bar" + i.toString() + j.toString()); // Give each bar a css id named bar + index , i.e #bar0, #bar1, #bar2 etc.
               $(bar).css({     // Define CSS attributes for each class
-                "allign-self": "flex-end",      //  Alligns each bar to the bottom of the container
+                "align-self": "flex-end",      //  Alligns each bar to the bottom of the container
                 "height" : (data[i][j] - options.axisMin)*options.height/(options.axisMax - options.axisMin),        //Adds Y-axis functionality by including axisMax and axisMin, and adjusting the height of the bars to these values
                 "width" : (options.width - (data.length - 1)*options.barSpacing) / (2*data.length),  
                 "background-color": options.barColor[i][j],  // Add barColor from options
@@ -292,8 +295,8 @@ $(document).ready( function() {
             let label = $('<d>');
             $(label).css({
               "width" : (options.width - (data.length - 1)*options.barSpacing) / data.length,
-              "margin-right" : options.barSpacing,   // Add barSpacing option to margins of each bar div
-              "margin-left" : options.barSpacing,
+              "margin-right" : options.barSpacing/2,   // Add barSpacing option to margins of each bar div
+              "margin-left" : options.barSpacing/2,
               "text-align" : "center",
               "font-size"  : options.xLabelSize
             })
